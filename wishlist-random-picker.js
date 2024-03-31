@@ -1,25 +1,26 @@
-//
+//https://github.com/desmondbergen/rateyourmusic-tools
 
 // ==UserScript==
-// @name         RYM tools - Pick random album from wishlist
+// @name         RYM tools - wishlist-random-picker
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Pick random album from wishlist
 // @author       Dessie
-// @match        https://rateyourmusic.com/collection/*/wishlist/*
+// @match        https://rateyourmusic.com/collection/*/wishlist*
 // @run-at       document-start
 // @grant        none
+// @downloadURL  https://raw.githubusercontent.com/desmondbergen/rateyourmusic-tools/main/wishlist-random-picker.js
 // ==/UserScript==
 
 //page_catalog_item_xx -- id of individual wishlist elements
 //#page_catalog_item <- .mbgen <- .content <- .content_wrapper <- .content_wrapper_outer
 
-function copyHtml(node1,node2){
-    node1.innerHTML=node2.innerHTML;
+function copyHtml(node1, node2) {
+    node1.innerHTML = node2.innerHTML;
 }
 
 
-function getRow(album){
+function getRow(album) {
     let info = [];
     info.push(
         album.querySelector('.or_q_thumb_album')
@@ -54,6 +55,8 @@ let template = `
 <td class="or_q_tags_td">
 <p><b>Don't know what to listen to? Click the button to pick a random release from the wishlist!</b></p>
 <sub>due to technical limitations, this script can only pick a release that's on the current page</sub>
+<br>
+<sub>this also works on other users' wishlists. try it out!</sub>
 </td>
 
 <tr></tr>`;
@@ -67,40 +70,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //albums.forEach((row)=>console.log(row));
 
-    let previous = document.createElement("tr");
+    //dont display the picker if there are no items besides the header in the table
+    if(!table.length==1){
+        let previous = document.createElement("tr");
 
-    table.insertBefore(templateNode,tableHeader);
+        table.insertBefore(templateNode, tableHeader);
 
-    templateNode.innerHTML+=template;
-    templateNode.setAttribute("id", "page_catalog_item_suggestion");
+        templateNode.innerHTML += template;
+        templateNode.setAttribute("id", "page_catalog_item_suggestion");
 
-    let pickButton = document.getElementById("pick_button");
-    pickButton.addEventListener('click',()=>{
-        let pick = albums[Math.floor(Math.random() * albums.length)]; //pick a random album from the table
+        let pickButton = document.getElementById("pick_button");
+        pickButton.addEventListener('click', () => {
+            let pick = albums[Math.floor(Math.random() * albums.length)]; //pick a random album from the table
 
-        //if the album picked is the same as the previous one, generate a new one until it isn't
-        if(pick.innerHTML==previous.innerHTML){
-            //console.log("same album picked twice");
-            while(pick.innerHTML==previous.innerHTML){
-                pick = albums[Math.floor(Math.random() * albums.length)];
+            //if the album picked is the same as the previous one, generate a new one until it isn't
+            if (pick.innerHTML == previous.innerHTML) {
+                //console.log("same album picked twice");
+                while (pick.innerHTML == previous.innerHTML) {
+                    pick = albums[Math.floor(Math.random() * albums.length)];
+                }
             }
+            copyHtml(previous, pick);
+            //console.log(pick);
+
+            //get the columns
+            let albumRows = getRow(pick);
+            let templateRows = getRow(templateNode);
+
+            //copy and paste every column from the album row to the top row
+            for (let i = 0; i < albumRows.length; i++) {
+                copyHtml(templateRows[i], albumRows[i]);
+            }
+
         }
-        copyHtml(previous,pick);
-        //console.log(pick);
-
-        //get the columns
-        let albumRows = getRow(pick);
-        let templateRows = getRow(templateNode);
-
-        //copy and paste every column from the album row to the top row
-        for (let i=0;i<albumRows.length;i++){
-            copyHtml(templateRows[i],albumRows[i]);
-        }
-
-
-    }
     )
-
+    }
 }
 )
 
