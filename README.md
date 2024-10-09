@@ -18,7 +18,7 @@ From the plugin website:
 
 ### Under Development
 
-- **ratings-decade-sorter** Will sort all the ratings on the current page according to their decade. 
+- **date-chart** Allows you to get the charts for a specific date
 ## New Features & Bugs
 Suggestions for new features and bug reports are very appreciated! Please post them in the Issues tab. You don't have to have a knowledge of a programming in order to create a Github account, though you're very welcome to contribute to the code and improve the tools anyway you can.
 

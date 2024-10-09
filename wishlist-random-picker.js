@@ -9,7 +9,7 @@
 // @match        https://rateyourmusic.com/collection/*/wishlist*
 // @run-at       document-start
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/desmondbergen/rateyourmusic-tools/main/wishlist-random-picker.js
+// @downloadURL  https://raw.githubusercontent.com/desmondberg/rateyourmusic-tools/main/wishlist-random-picker.js
 // ==/UserScript==
 
 //page_catalog_item_xx -- id of individual wishlist elements
