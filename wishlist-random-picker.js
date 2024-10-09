@@ -1,10 +1,10 @@
-//https://github.com/desmondbergen/rateyourmusic-tools
+//https://github.com/desmondberg/rateyourmusic-tools
 
 // ==UserScript==
-// @name         RYM tools - wishlist-random-picker
+// @name         RYM tools - date-chart
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  Pick random album from wishlist
+// @description  Get chart for specific date
 // @author       Dessie
 // @match        https://rateyourmusic.com/collection/*/wishlist*
 // @run-at       document-start
